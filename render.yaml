@@ -22,7 +22,7 @@ services:
       - key: AIRFLOW__WEBSERVER__WEB_SERVER_MASTER_TIMEOUT
         value: "300"
       - key: AIRFLOW__WEBSERVER__WORKERS
-        value: "2"
+        value: "1"
       - key: AIRFLOW__WEBSERVER__AUTH_BACKEND
         value: airflow.www.auth.no_auth
       - key: AIRFLOW__WEBSERVER__AUTHENTICATE
