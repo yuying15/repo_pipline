@@ -44,12 +44,16 @@ COPY airflow.cfg /opt/airflow/airflow.cfg
 COPY etl /opt/airflow/dags/etl
 COPY dags /opt/airflow/dags
 
+# Copy the custom entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
 # Expose the port for the webserver
 EXPOSE 8080
 
 # Switch back to airflow user
 USER airflow
 
-# Use the airflow standalone command to initialize the database, create an admin user, and start the webserver and scheduler
-CMD ["bash", "-c", "airflow db init && airflow users create --username admin --firstname Admin --lastname User --role Admin --email admin@example.com --password admin && airflow webserver --port 8080"]
+# Use the custom entrypoint script
+ENTRYPOINT ["/entrypoint.sh"]
 
