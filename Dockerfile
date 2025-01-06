@@ -10,7 +10,8 @@ WORKDIR /app
 # Install Java (required for Spark)
 RUN apt-get update && \
     apt-get install -y openjdk-11-jdk && \
-    apt-get clean
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set Java environment variables
 ENV JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
@@ -32,9 +33,6 @@ RUN curl -o /tmp/spark.tgz https://archive.apache.org/dist/spark/spark-3.5.0/spa
     rm /tmp/spark.tgz
 ENV SPARK_HOME=/opt/spark-3.5.0-bin-hadoop3
 ENV PATH="$SPARK_HOME/bin:$PATH"
-
-# Set the PYTHONPATH environment variable
-# ENV PYTHONPATH="/opt/airflow/etl"
 
 # Rename the Excel file to avoid spaces
 COPY AdventureWorks_Sales.xlsx /opt/airflow/excel/
