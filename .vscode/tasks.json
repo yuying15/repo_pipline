@@ -1,0 +1,11 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run Airflow Container",
+            "type": "shell",
+            "command": "docker run --rm -d -p 8080:8080 --name my-airflow-container my-airflow-image:latest",
+            "problemMatcher": []
+        }
+    ]
+}
