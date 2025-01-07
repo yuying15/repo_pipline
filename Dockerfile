@@ -53,6 +53,4 @@ EXPOSE 8080
 USER airflow
 
 # Use the airflow standalone command to initialize the database, create an admin user, and start the webserver and scheduler
-# CMD ["bash", "-c", "airflow db init && airflow db upgrade && airflow users create --username admin --firstname Admin --lastname User --role Admin --email admin@example.com --password admin && airflow scheduler && airflow webserver --port 8080 --host 0.0.0.0"]
-
-CMD ["airflow", "standalone"]
+CMD ["bash", "-c", "airflow db init && airflow db upgrade && airflow users create --username admin --firstname Admin --lastname User --role Admin --email admin@example.com --password admin && airflow standalone"]
