@@ -1,6 +1,6 @@
 apache-airflow[postgres]==2.7.1 
-pyspark==3.5.0 
-pandas==1.5.3 
-snowflake-connector-python
-snowflake-sqlalchemy
-openpyxl
+# pyspark==3.5.0 
+# pandas==1.5.3 
+# snowflake-connector-python
+# snowflake-sqlalchemy
+# openpyxl
