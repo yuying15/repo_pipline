@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Initialize the Airflow database
-airflow db init
+# airflow db init
 
 # Start the Airflow scheduler in the background
 airflow scheduler &
