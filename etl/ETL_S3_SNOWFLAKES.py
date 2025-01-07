@@ -7,7 +7,7 @@ user = 'bdavic'
 password = 'Hznmb2JKdpXw88x'
 # warehouse = 'your_warehouse'  # Replace with your actual warehouse
 database = 'BDA_VIC'
-schema = 'public'
+schema = 'ABC'
 role = 'ACCOUNTADMIN'
 
 
