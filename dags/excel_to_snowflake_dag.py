@@ -1,6 +1,6 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
-from etl.credentials import snowflake_credentials
+from etl.credentials import snowflake_credentials, postgresql_credentials 
 from datetime import datetime
 from etl.excel_to_snowflake_etl import excel_to_snowflake_etl
 from etl.new_task import new_task_function

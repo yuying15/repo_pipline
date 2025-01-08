@@ -1,4 +1,4 @@
-
+from credentials import snowflake_credentials, postgresql_credentials 
 
 def new_task_function():
 

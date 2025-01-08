@@ -1,4 +1,4 @@
-
+from credentials import snowflake_credentials, postgresql_credentials 
 
 def sf_to_postgresql():
 

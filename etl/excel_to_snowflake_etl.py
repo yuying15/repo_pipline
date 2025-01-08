@@ -1,5 +1,5 @@
 
-
+from credentials import snowflake_credentials, postgresql_credentials 
 def excel_to_snowflake_etl(excel_path: str, target_table: str): 
     
     # Import necessary libraries

@@ -1,4 +1,4 @@
-
+from credentials import snowflake_credentials, postgresql_credentials 
 
 def execute_snowflake_sql():
     # Import necessary libraries
