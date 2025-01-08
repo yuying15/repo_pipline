@@ -1,7 +1,7 @@
 
 
 def excel_to_snowflake_etl(excel_path: str, target_table: str): 
-    from credentials import snowflake_credentials
+    
     # Import necessary libraries
     from pyspark.sql import SparkSession
     import pandas as pd

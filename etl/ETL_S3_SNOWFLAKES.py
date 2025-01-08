@@ -2,7 +2,7 @@
 
 def execute_snowflake_sql():
     # Import necessary libraries
-    from credentials import snowflake_credentials
+
     import snowflake.connector
 
     # Execute the SQL query using Snowflake connector

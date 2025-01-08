@@ -1,7 +1,7 @@
 
 
 def sf_to_postgresql():
-    from credentials import snowflake_credentials, postgresql_credentials
+
     print("This is a new task")
     # Import necessary libraries
     from pyspark.sql import SparkSession

@@ -1,7 +1,7 @@
 
 
 def new_task_function():
-    from credentials import snowflake_credentials, postgresql_credentials
+
     print("This is a new task")
     # Import necessary libraries
     from pyspark.sql import SparkSession

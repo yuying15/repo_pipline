@@ -1,10 +1,11 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
+from etl.credentials import snowflake_credentials
 from datetime import datetime
 from etl.excel_to_snowflake_etl import excel_to_snowflake_etl
 from etl.new_task import new_task_function
 from etl.ETL_S3_SNOWFLAKES import execute_snowflake_sql
-from etl.sf_to_postgresql import sf_to_function
+from etl.sf_to_postgresql import sf_to_postgresql
 
 with DAG(
     dag_id="excel_to_snowflake",
@@ -33,7 +34,7 @@ with DAG(
 
     sf_to_pg_task = PythonOperator(
         task_id="sf_to_postgresql",
-        python_callable=sf_to_function
+        python_callable=sf_to_postgresql
     )
 
     # Set task dependencies
