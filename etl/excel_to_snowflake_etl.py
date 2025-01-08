@@ -1,10 +1,14 @@
-
-from credentials import snowflake_credentials, postgresql_credentials 
-def excel_to_snowflake_etl(excel_path: str, target_table: str): 
+def excel_to_snowflake_etl(): 
     
     # Import necessary libraries
     from pyspark.sql import SparkSession
     import pandas as pd
+    from dotenv import load_dotenv
+    import os
+    import requests
+    from io import BytesIO
+    # Load environment variables
+    load_dotenv()
 
     # Create a Spark session
     spark = SparkSession.builder \
@@ -22,18 +26,30 @@ def excel_to_snowflake_etl(excel_path: str, target_table: str):
 
     # Define Snowflake options
     snowflake_options = {
-        "sfURL": f"{snowflake_credentials['account']}.snowflakecomputing.com",
-        "sfUser": snowflake_credentials['user'],
-        "sfPassword": snowflake_credentials['password'],
-        "sfDatabase": snowflake_credentials['database'],
-        "sfSchema": snowflake_credentials['schema'],
-        "sfRole": snowflake_credentials['role']
+        "sfURL": f"{os.getenv('SNOWFLAKE_ACCOUNT')}.snowflakecomputing.com",
+        "sfUser": os.getenv('SNOWFLAKE_USER'),
+        "sfPassword": os.getenv('SNOWFLAKE_PASSWORD'),
+        "sfDatabase": os.getenv('SNOWFLAKE_DATABASE'),
+        "sfSchema": os.getenv('SNOWFLAKE_SCHEMA'),
+        "sfRole": os.getenv('SNOWFLAKE_ROLE')
     }
-
+    
     # Function to load all sheets from an Excel file and write them to Snowflake
-    def load_and_write_excel_to_snowflake(file_path: str, snowflake_options: dict):
+    def load_and_write_excel_to_snowflake(snowflake_options: dict):
+        github_url = "https://github.com/python-vic/etl_shceduler/raw/refs/heads/main/etl/AdventureWorks_Sales.xlsx"  # Replace with the actual raw URL
+
+        # Step 1: Download the Excel file from GitHub
+        response = requests.get(github_url)
+        if response.status_code == 200:
+            print("File downloaded successfully!")
+        else:
+            raise Exception(f"Failed to download file from GitHub. Status code: {response.status_code}")
+
+        # Step 2: Read the Excel file into a Pandas DataFrame
+        excel_file = BytesIO(response.content)  # Treat the content as a file
+        # sheets = pd.ExcelFile(excel_file)  
         # Step 1: Get all sheet names using Pandas
-        excel_file = pd.ExcelFile(file_path)
+        excel_file = pd.ExcelFile(excel_file)
         sheet_names = excel_file.sheet_names
 
         # Step 2: Load each sheet into a Spark DataFrame
@@ -45,7 +61,7 @@ def excel_to_snowflake_etl(excel_path: str, target_table: str):
                 .option("inferSchema", "true") \
                 .option("dataAddress", f"'{sheet_name}'!A1") \
                 .option("maxRowsInMemory", 20000) \
-                .load(file_path)
+                .load(github_url)
             for col in spark_df.columns:
                 spark_df = spark_df.withColumnRenamed(col, col.replace(' ', '_'))
             # Add the DataFrame to a dictionary with the sheet name as the key
@@ -66,12 +82,11 @@ def excel_to_snowflake_etl(excel_path: str, target_table: str):
             print(f"Data written to Snowflake table '{table_name}'")
 
     # Load and write the AdventureWorks data from an Excel file to Snowflake
-    excel_file_path = excel_path  # Use raw string
-    load_and_write_excel_to_snowflake(excel_file_path, snowflake_options)
+    # excel_file_path = excel_path  # Use raw string
+    load_and_write_excel_to_snowflake(snowflake_options)
 
     spark.stop()
 
-# excel_path= r'AdventureWorks_Sales.xlsx'
-# excel_path= r'/opt/airflow/excel/AdventureWorks_Sales.xlsx'
-# target_table='AdventureWorks_Sales'
-# excel_to_snowflake_etl(excel_path, target_table)
+
+# excel_to_snowflake_etl( )
+

@@ -1,10 +1,13 @@
-from credentials import snowflake_credentials, postgresql_credentials 
-
 def new_task_function():
 
     print("This is a new task")
     # Import necessary libraries
     from pyspark.sql import SparkSession
+    from dotenv import load_dotenv
+    import os
+
+    # Load environment variables
+    load_dotenv()
 
     # Create a Spark session
     spark = SparkSession.builder \
@@ -14,13 +17,13 @@ def new_task_function():
 
     # Define Snowflake options
     snowflake_options = {
-        "sfURL": f"{snowflake_credentials['account']}.snowflakecomputing.com",
-        "sfUser": snowflake_credentials['user'],
-        "sfPassword": snowflake_credentials['password'],
-        "sfDatabase": snowflake_credentials['database'],
-        "sfSchema": snowflake_credentials['schema'],
-        "sfWarehouse": snowflake_credentials['warehouse'],
-        "sfRole": snowflake_credentials['role']
+        "sfURL": f"{os.getenv('SNOWFLAKE_ACCOUNT')}.snowflakecomputing.com",
+        "sfUser": os.getenv('SNOWFLAKE_USER'),
+        "sfPassword": os.getenv('SNOWFLAKE_PASSWORD'),
+        "sfDatabase": os.getenv('SNOWFLAKE_DATABASE'),
+        "sfSchema": os.getenv('SNOWFLAKE_SCHEMA'),
+        "sfWarehouse": os.getenv('SNOWFLAKE_WAREHOUSE'),
+        "sfRole": os.getenv('SNOWFLAKE_ROLE')
     }
 
     def load_and_join_tables(snowflake_options: dict):
@@ -98,7 +101,12 @@ def new_task_function():
             print("No sheets could be joined due to missing common columns.")
 
     # Example usage
-    load_from_snowflake_to_postgresql(snowflake_options, postgresql_credentials['url'], postgresql_credentials['properties'])
+    load_from_snowflake_to_postgresql(snowflake_options, os.getenv('POSTGRESQL_URL'), {
+        'user': os.getenv('POSTGRESQL_USER'),
+        'password': os.getenv('POSTGRESQL_PASSWORD'),
+        'driver': os.getenv('POSTGRESQL_DRIVER'),
+        'currentSchema': os.getenv('POSTGRESQL_SCHEMA')
+    })
 
     print('Joined data loaded from Snowflake and written to PostgreSQL successfully.')
 

@@ -1,10 +1,13 @@
-from credentials import snowflake_credentials, postgresql_credentials 
-
 def sf_to_postgresql():
 
     print("This is a new task")
     # Import necessary libraries
     from pyspark.sql import SparkSession
+    from dotenv import load_dotenv
+    import os
+
+    # Load environment variables
+    load_dotenv()
 
     # Create a Spark session
     spark = SparkSession.builder \
@@ -14,13 +17,13 @@ def sf_to_postgresql():
 
     # Define Snowflake options
     snowflake_options = {
-        "sfURL": f"{snowflake_credentials['account']}.snowflakecomputing.com",
-        "sfUser": snowflake_credentials['user'],
-        "sfPassword": snowflake_credentials['password'],
-        "sfDatabase": snowflake_credentials['database'],
-        "sfSchema": snowflake_credentials['schema'],
-        "sfWarehouse": snowflake_credentials['warehouse'],
-        "sfRole": snowflake_credentials['role']
+        "sfURL": f"{os.getenv('SNOWFLAKE_ACCOUNT')}.snowflakecomputing.com",
+        "sfUser": os.getenv('SNOWFLAKE_USER'),
+        "sfPassword": os.getenv('SNOWFLAKE_PASSWORD'),
+        "sfDatabase": os.getenv('SNOWFLAKE_DATABASE'),
+        "sfSchema": os.getenv('SNOWFLAKE_SCHEMA'),
+        "sfWarehouse": os.getenv('SNOWFLAKE_WAREHOUSE'),
+        "sfRole": os.getenv('SNOWFLAKE_ROLE')
     }
 
     def load_table_from_snowflake(snowflake_options: dict, query: str):
@@ -91,7 +94,12 @@ def sf_to_postgresql():
     LEFT JOIN tb_101.raw_customer.customer_loyalty cl
     ON oh.customer_id = cl.customer_id  limit 100000;'''  # Replace with your actual query
     target_table1 = "orders"  # Replace with your actual target table name
-    load_from_snowflake_to_postgresql(snowflake_options, postgresql_credentials['url'], postgresql_credentials['properties'], query1, target_table1)
+    load_from_snowflake_to_postgresql(snowflake_options, os.getenv('POSTGRESQL_URL'), {
+        'user': os.getenv('POSTGRESQL_USER'),
+        'password': os.getenv('POSTGRESQL_PASSWORD'),
+        'driver': os.getenv('POSTGRESQL_DRIVER'),
+        'currentSchema': os.getenv('POSTGRESQL_SCHEMA')
+    }, query1, target_table1)
 
     query2 = '''SELECT 
     cl.customer_id,
@@ -109,8 +117,16 @@ def sf_to_postgresql():
     GROUP BY cl.customer_id, cl.city, cl.country, cl.first_name,
     cl.last_name, cl.phone_number, cl.e_mail;'''  # Replace with your actual query
     target_table2 = "customer_loyalty_metrics"  # Replace with your actual target table name
-    load_from_snowflake_to_postgresql(snowflake_options, postgresql_credentials['url'], postgresql_credentials['properties'], query2, target_table2)
+    load_from_snowflake_to_postgresql(snowflake_options, os.getenv('POSTGRESQL_URL'), {
+        'user': os.getenv('POSTGRESQL_USER'),
+        'password': os.getenv('POSTGRESQL_PASSWORD'),
+        'driver': os.getenv('POSTGRESQL_DRIVER'),
+        'currentSchema': os.getenv('POSTGRESQL_SCHEMA')
+    }, query2, target_table2)
 
     print('Data loaded from Snowflake and written to PostgreSQL successfully.')
 
 # sf_to_postgresql()
+
+# Ensure to install the python-dotenv package
+# pip install python-dotenv

@@ -1,6 +1,5 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
-from etl.credentials import snowflake_credentials, postgresql_credentials 
 from datetime import datetime
 from etl.excel_to_snowflake_etl import excel_to_snowflake_etl
 from etl.new_task import new_task_function
@@ -16,10 +15,6 @@ with DAG(
     etl_task = PythonOperator(
         task_id="excel_to_snowflake_etl",
         python_callable=excel_to_snowflake_etl,
-        op_kwargs={
-            "excel_path": "/opt/airflow/etl/AdventureWorks_Sales.xlsx",
-            "target_table": "target_table_name"
-        }
     )
 
     new_task = PythonOperator(
