@@ -46,13 +46,13 @@ COPY etl /opt/airflow/dags/etl
 COPY dags /opt/airflow/dags
 
 # Copy the SQL file
-COPY etl/s3_sf_data.sql /opt/airflow/etl/s3_sf_data.sql
+# COPY etl/s3_sf_data.sql /opt/airflow/etl/s3_sf_data.sql
 
 # Copy the new Python script
-COPY etl/ETL_S3_SNOWFLAKES.py /opt/airflow/etl/ETL_S3_SNOWFLAKES.py
+# COPY etl/ETL_S3_SNOWFLAKES.py /opt/airflow/etl/ETL_S3_SNOWFLAKES.py
 
 # Copy the credentials file
-COPY etl/credentials.py /opt/airflow/etl/credentials.py
+# COPY etl/credentials.py /opt/airflow/etl/credentials.py
 
 # Expose the port for the webserver
 EXPOSE 8080

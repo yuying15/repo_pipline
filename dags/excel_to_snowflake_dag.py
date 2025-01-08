@@ -46,5 +46,4 @@ with DAG(
 
     # Set task dependencies
     etl_task >> new_task
-    new_task >> execute_sql_task
     execute_sql_task >> sf_to_pg_task
