@@ -1,4 +1,4 @@
-from etl.credentials import snowflake_credentials, postgresql_credentials
+from credentials import snowflake_credentials, postgresql_credentials
 
 def new_task_function():
 
@@ -102,3 +102,4 @@ def new_task_function():
 
     print('Joined data loaded from Snowflake and written to PostgreSQL successfully.')
 
+new_task_function()

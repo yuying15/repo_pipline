@@ -36,7 +36,7 @@ ENV SPARK_HOME=/opt/spark-3.5.0-bin-hadoop3
 ENV PATH="$SPARK_HOME/bin:$PATH"
 
 # Rename the Excel file to avoid spaces
-COPY AdventureWorks_Sales.xlsx /opt/airflow/excel/
+# COPY AdventureWorks_Sales.xlsx /opt/airflow/excel/
 
 # Copy Airflow configuration file
 COPY airflow.cfg /opt/airflow/airflow.cfg
