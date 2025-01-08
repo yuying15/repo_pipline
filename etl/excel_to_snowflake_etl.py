@@ -1,22 +1,9 @@
+from etl.credentials import snowflake_credentials
 
- 
 def excel_to_snowflake_etl(excel_path: str, target_table: str): 
     # Import necessary libraries
     from pyspark.sql import SparkSession
-    import os
     import pandas as pd
-    # Set environment variables for Spark
-    # os.environ['PYSPARK_SUBMIT_ARGS'] = '--packages net.snowflake:spark-snowflake_2.12:2.10.0-spark_3.2,net.snowflake:snowflake-jdbc:3.13.3,com.crealytics:spark-excel_2.12:0.13.5 pyspark-shell'
-    # os.environ['PYSPARK_PYTHON'] = 'python'
-    # os.environ['PYSPARK_DRIVER_PYTHON'] = 'python'
-
-    # Define Snowflake connection parameters
-    account = 'nohobhx-hl27063'
-    user = 'bdavic'
-    password = 'Hznmb2JKdpXw88x'
-    database = 'BDA_VIC'
-    schema = 'ABC'
-    role = 'ACCOUNTADMIN'
 
     # Create a Spark session
     spark = SparkSession.builder \
@@ -34,12 +21,12 @@ def excel_to_snowflake_etl(excel_path: str, target_table: str):
 
     # Define Snowflake options
     snowflake_options = {
-        "sfURL": f"{account}.snowflakecomputing.com",
-        "sfUser": user,
-        "sfPassword": password,
-        "sfDatabase": database,
-        "sfSchema": schema,
-        "sfRole": role
+        "sfURL": f"{snowflake_credentials['account']}.snowflakecomputing.com",
+        "sfUser": snowflake_credentials['user'],
+        "sfPassword": snowflake_credentials['password'],
+        "sfDatabase": snowflake_credentials['database'],
+        "sfSchema": snowflake_credentials['schema'],
+        "sfRole": snowflake_credentials['role']
     }
 
     # Function to load all sheets from an Excel file and write them to Snowflake
@@ -60,7 +47,7 @@ def excel_to_snowflake_etl(excel_path: str, target_table: str):
                 .load(file_path)
             for col in spark_df.columns:
                 spark_df = spark_df.withColumnRenamed(col, col.replace(' ', '_'))
-        # Add the DataFrame to a dictionary with the sheet name as the key
+            # Add the DataFrame to a dictionary with the sheet name as the key
             spark_dfs[sheet_name] = spark_df
             print(f"Loaded {sheet_name} with {spark_df.count()} rows")
             

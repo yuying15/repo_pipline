@@ -1,30 +1,10 @@
+from etl.credentials import snowflake_credentials, postgresql_credentials
+
 def new_task_function():
 
     print("This is a new task")
     # Import necessary libraries
     from pyspark.sql import SparkSession
-    # import os
-
-    # Set environment variables for Spark
-    # os.environ['PYSPARK_SUBMIT_ARGS'] = '--packages net.snowflake:spark-snowflake_2.12:2.10.0-spark_3.2,net.snowflake:snowflake-jdbc:3.13.3,org.postgresql:postgresql:42.2.23 pyspark-shell'
-
-    # Define Snowflake connection parameters
-    account = 'nohobhx-hl27063'
-    user = 'bdavic'
-    password = 'Hznmb2JKdpXw88x'
-    warehouse = 'COMPUTE_WH'  # Replace with your actual warehouse
-    database = 'BDA_VIC'
-    schema = 'ABC'
-    role = 'ACCOUNTADMIN'
-
-    # Define PostgreSQL connection parameters
-    pg_url = 'jdbc:postgresql://dpg-ctpgf2t2ng1s73drs8hg-a.oregon-postgres.render.com:5432/bda_2dog'
-    pg_properties = {
-        'user': 'bda_2dog_user',
-        'password': 'CfjVbrAnbPIFtbxHeN1z6tAzPbq4yJal',
-        'driver': 'org.postgresql.Driver',
-        'currentSchema': 'etl_sf'  # Add your schema name here
-    }
 
     # Create a Spark session
     spark = SparkSession.builder \
@@ -34,13 +14,13 @@ def new_task_function():
 
     # Define Snowflake options
     snowflake_options = {
-        "sfURL": f"{account}.snowflakecomputing.com",
-        "sfUser": user,
-        "sfPassword": password,
-        "sfDatabase": database,
-        "sfSchema": schema,
-        "sfWarehouse": warehouse,
-        "sfRole": role
+        "sfURL": f"{snowflake_credentials['account']}.snowflakecomputing.com",
+        "sfUser": snowflake_credentials['user'],
+        "sfPassword": snowflake_credentials['password'],
+        "sfDatabase": snowflake_credentials['database'],
+        "sfSchema": snowflake_credentials['schema'],
+        "sfWarehouse": snowflake_credentials['warehouse'],
+        "sfRole": snowflake_credentials['role']
     }
 
     def load_and_join_tables(snowflake_options: dict):
@@ -118,7 +98,7 @@ def new_task_function():
             print("No sheets could be joined due to missing common columns.")
 
     # Example usage
-    load_from_snowflake_to_postgresql(snowflake_options, pg_url, pg_properties)
+    load_from_snowflake_to_postgresql(snowflake_options, postgresql_credentials['url'], postgresql_credentials['properties'])
 
     print('Joined data loaded from Snowflake and written to PostgreSQL successfully.')
 
