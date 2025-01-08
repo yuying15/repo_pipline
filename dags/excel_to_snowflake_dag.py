@@ -1,10 +1,10 @@
 from airflow import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime
-import subprocess
-
-def run_script(script_path):
-    subprocess.run(["python", script_path], check=True)
+from etl.excel_to_snowflake_etl import excel_to_snowflake_etl
+from etl.new_task import new_task_function
+from etl.ETL_S3_SNOWFLAKES import execute_snowflake_sql
+from etl.sf_to_postgresql import sf_to_function
 
 with DAG(
     dag_id="excel_to_snowflake",
@@ -14,34 +14,26 @@ with DAG(
 ) as dag:
     etl_task = PythonOperator(
         task_id="excel_to_snowflake_etl",
-        python_callable=run_script,
+        python_callable=excel_to_snowflake_etl,
         op_kwargs={
-            "script_path": "/opt/airflow/dags/etl/excel_to_snowflake_etl.py"
+            "excel_path": "/opt/airflow/etl/AdventureWorks_Sales.xlsx",
+            "target_table": "target_table_name"
         }
     )
 
     new_task = PythonOperator(
         task_id="new_task",
-        python_callable=run_script,
-        op_kwargs={
-            "script_path": "/opt/airflow/dags/etl/new_task.py"
-        }
+        python_callable=new_task_function
     )
 
     execute_sql_task = PythonOperator(
         task_id="execute_snowflake_sql",
-        python_callable=run_script,
-        op_kwargs={
-            "script_path": "/opt/airflow/dags/etl/ETL_S3_SNOWFLAKES.py"
-        }
+        python_callable=execute_snowflake_sql
     )
 
     sf_to_pg_task = PythonOperator(
         task_id="sf_to_postgresql",
-        python_callable=run_script,
-        op_kwargs={
-            "script_path": "/opt/airflow/dags/etl/sf_to_postgresql.py"
-        }
+        python_callable=sf_to_function
     )
 
     # Set task dependencies

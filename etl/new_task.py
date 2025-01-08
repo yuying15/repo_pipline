@@ -1,7 +1,7 @@
-from credentials import snowflake_credentials, postgresql_credentials
+
 
 def new_task_function():
-
+    from credentials import snowflake_credentials, postgresql_credentials
     print("This is a new task")
     # Import necessary libraries
     from pyspark.sql import SparkSession
@@ -102,4 +102,4 @@ def new_task_function():
 
     print('Joined data loaded from Snowflake and written to PostgreSQL successfully.')
 
-new_task_function()
+# new_task_function()

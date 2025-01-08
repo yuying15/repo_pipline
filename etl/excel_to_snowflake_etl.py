@@ -1,6 +1,7 @@
-from credentials import snowflake_credentials
+
 
 def excel_to_snowflake_etl(excel_path: str, target_table: str): 
+    from credentials import snowflake_credentials
     # Import necessary libraries
     from pyspark.sql import SparkSession
     import pandas as pd
@@ -70,7 +71,7 @@ def excel_to_snowflake_etl(excel_path: str, target_table: str):
 
     spark.stop()
 
-excel_path= r'AdventureWorks_Sales.xlsx'
+# excel_path= r'AdventureWorks_Sales.xlsx'
 # excel_path= r'/opt/airflow/excel/AdventureWorks_Sales.xlsx'
-target_table='AdventureWorks_Sales'
-excel_to_snowflake_etl(excel_path, target_table)
+# target_table='AdventureWorks_Sales'
+# excel_to_snowflake_etl(excel_path, target_table)
