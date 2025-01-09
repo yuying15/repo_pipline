@@ -2,7 +2,7 @@ def execute_snowflake_sql():
     # Import necessary libraries
     import snowflake.connector
     import os
-    import s3_sf_data 
+    from etl.s3_sf_data import query
     # Load environment variables
     
 
@@ -19,7 +19,7 @@ def execute_snowflake_sql():
     # Read the SQL file
     # with open('etl\s3_sf_data.sql', 'r') as file:
     #     sql_statements = file.read()
-    sql_statements = s3_sf_data.query
+    sql_statements = query
     print(sql_statements)
     # Execute the SQL statements
     cursors = conn.execute_string(sql_statements)
