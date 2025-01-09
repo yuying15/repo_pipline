@@ -92,10 +92,39 @@ def new_task_function():
         joined_df = joined_df.toDF(*[f"{col}_{i}" if joined_df.columns.count(col) > 1 else col for i, col in enumerate(joined_df.columns)])
         print(joined_df.columns)
         
+        # Truncate the existing table in PostgreSQL before loading new data
+        from psycopg2 import connect
+
+        conn = None  # Initialize conn to None
+        try:
+            # Ensure the URL is correctly formatted for psycopg2
+            if pg_url.startswith('jdbc:'):
+                pg_url = pg_url[5:]
+            
+            conn = connect(
+                dbname=pg_url.split('/')[-1],
+                user=pg_properties['user'],
+                password=pg_properties['password'],
+                host=pg_url.split('/')[2].split(':')[0],
+                port=pg_url.split('/')[2].split(':')[1] if ':' in pg_url.split('/')[2] else '5432'
+            )
+            with conn.cursor() as cursor:
+                cursor.execute("TRUNCATE TABLE AdventureWorks RESTART IDENTITY CASCADE")
+                conn.commit()
+                print("AdventureWorks table truncated successfully.")
+        except Exception as e:
+            print(f"Failed to truncate table AdventureWorks: {e}")
+        finally:
+            if conn:
+                conn.close()
+        
+        # Ensure the URL is correctly formatted for Spark JDBC
+        jdbc_url = f"jdbc:postgresql://{pg_url.split('//')[1]}"
+
         # Write joined data to PostgreSQL
         if joined_df:
             joined_df.write \
-                .jdbc(url=pg_url, table="AdventureWorks", mode="overwrite", properties=pg_properties)
+                .jdbc(url=jdbc_url, table="AdventureWorks", mode="overwrite", properties=pg_properties)
             print("Joined data written to PostgreSQL")
         else:
             print("No sheets could be joined due to missing common columns.")
