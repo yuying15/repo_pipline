@@ -12,7 +12,7 @@ with DAG(
     dag_id="excel_to_snowflake",
     start_date=datetime(2023, 1, 1),
     schedule_interval="@daily",
-    catchup=False
+    # catchup=False
 ) as dag:
     etl_task = PythonOperator(
         task_id="excel_to_snowflake_etl",

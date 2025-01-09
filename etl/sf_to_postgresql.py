@@ -158,7 +158,7 @@ def sf_to_postgresql():
 
     print('Data loaded from Snowflake and written to PostgreSQL successfully.')
 
-sf_to_postgresql()
+# sf_to_postgresql()
 
 # Ensure to install the python-dotenv package
 # pip install python-dotenv

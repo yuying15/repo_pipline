@@ -11,7 +11,7 @@ with DAG(
     dag_id="s3_snowflake_postgresql",
     start_date=datetime(2023, 1, 1),
     schedule_interval="@daily",
-    catchup=False
+    # catchup=False
 ) as dag:
 
     execute_sql_task = PythonOperator(
