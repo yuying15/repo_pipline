@@ -149,12 +149,12 @@ def sf_to_postgresql():
         'currentSchema': os.getenv('POSTGRESQL_SCHEMA')
     }, query1, target_table1)
 
-    load_from_snowflake_to_postgresql(snowflake_options, os.getenv('POSTGRESQL_URL'), {
-        'user': os.getenv('POSTGRESQL_USER'),
-        'password': os.getenv('POSTGRESQL_PASSWORD'),
-        'driver': os.getenv('POSTGRESQL_DRIVER'),
-        'currentSchema': os.getenv('POSTGRESQL_SCHEMA')
-    }, query2, target_table2)
+    # load_from_snowflake_to_postgresql(snowflake_options, os.getenv('POSTGRESQL_URL'), {
+    #     'user': os.getenv('POSTGRESQL_USER'),
+    #     'password': os.getenv('POSTGRESQL_PASSWORD'),
+    #     'driver': os.getenv('POSTGRESQL_DRIVER'),
+    #     'currentSchema': os.getenv('POSTGRESQL_SCHEMA')
+    # }, query2, target_table2)
 
     print('Data loaded from Snowflake and written to PostgreSQL successfully.')
 
