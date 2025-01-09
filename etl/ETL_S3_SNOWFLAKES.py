@@ -1,11 +1,10 @@
 def execute_snowflake_sql():
     # Import necessary libraries
     import snowflake.connector
-    from dotenv import load_dotenv
     import os
     import s3_sf_data 
     # Load environment variables
-    load_dotenv()
+    
 
     # Execute the SQL query using Snowflake connector
     conn = snowflake.connector.connect(

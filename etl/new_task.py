@@ -3,11 +3,11 @@ def new_task_function():
     print("This is a new task")
     # Import necessary libraries
     from pyspark.sql import SparkSession
-    from dotenv import load_dotenv
+  
     import os
 
     # Load environment variables
-    load_dotenv()
+
 
     # Create a Spark session
     spark = SparkSession.builder \

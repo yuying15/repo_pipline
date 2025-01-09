@@ -3,13 +3,12 @@ def excel_to_snowflake_etl():
     # Import necessary libraries
     from pyspark.sql import SparkSession
     import pandas as pd
-    from dotenv import load_dotenv
+    
     import os
     import requests
     from io import BytesIO
     # Load environment variables
-    load_dotenv()
-
+  
     # Create a Spark session
     spark = SparkSession.builder \
         .appName("Snowflake to PostgreSQL") \
@@ -36,7 +35,7 @@ def excel_to_snowflake_etl():
     
     # Function to load all sheets from an Excel file and write them to Snowflake
     def load_and_write_excel_to_snowflake(snowflake_options: dict):
-        github_url = "https://github.com/python-vic/etl_shceduler/raw/refs/heads/main/etl/AdventureWorks_Sales.xlsx"  # Replace with the actual raw URL
+        github_url = "https://github.com/python-vic/ETL_EXCEL_SF/raw/refs/heads/master/AdventureWorks_Sales.xlsx"  # Replace with the actual raw URL
 
         # Step 1: Download the Excel file from GitHub
         response = requests.get(github_url)
@@ -70,7 +69,8 @@ def excel_to_snowflake_etl():
             
             # Define Snowflake table name (based on sheet name)
             table_name = sheet_name.replace(" ", "_")
-            
+            spark_df.show()
+            print(snowflake_options,table_name)
             # Write data to Snowflake
             spark_df.write \
                     .format("snowflake") \
@@ -88,5 +88,5 @@ def excel_to_snowflake_etl():
     spark.stop()
 
 
-# excel_to_snowflake_etl( )
+# excel_to_snowflake_etl()
 
