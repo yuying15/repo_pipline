@@ -121,7 +121,7 @@ def sf_to_postgresql():
     JOIN tb_101.raw_pos.location l
     ON oh.location_id = l.location_id
     LEFT JOIN tb_101.raw_customer.customer_loyalty cl
-    ON oh.customer_id = cl.customer_id  limit 100000;'''  # Replace with your actual query
+    ON oh.customer_id = cl.customer_id  limit 50000;'''  # Replace with your actual query
     target_table1 = "orders"  # Replace with your actual target table name
 
     query2 = '''SELECT 

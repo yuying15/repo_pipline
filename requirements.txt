@@ -5,5 +5,5 @@ pandas==1.5.3
 # snowflake-sqlalchemy
 openpyxl
 python-dotenv
-psycopg2
+psycopg2-binary
 sqlalchemy
