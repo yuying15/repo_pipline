@@ -46,7 +46,7 @@ COPY etl /opt/airflow/dags/etl
 COPY dags /opt/airflow/dags
 
 # Copy the SQL file
-COPY etl/s3_sf_data.py /opt/airflow/etl/s3_sf_data.py
+# COPY etl/s3_sf_data.py /opt/airflow/etl/s3_sf_data.py
 
 # Copy the new Python script
 # COPY etl/ETL_S3_SNOWFLAKES.py /opt/airflow/etl/ETL_S3_SNOWFLAKES.py
