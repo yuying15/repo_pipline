@@ -1,11 +1,12 @@
-import os
-from pyspark.sql import SparkSession
-from dotenv import load_dotenv
+
+# from dotenv import load_dotenv
 
 # Load environment variables
-load_dotenv()
+# load_dotenv()
 
 def sf_to_postgresql():
+    import os
+    from pyspark.sql import SparkSession
     print("Starting Snowflake to PostgreSQL ETL process...")
 
     # Create a Spark session
@@ -139,4 +140,4 @@ def sf_to_postgresql():
     spark.stop()
 
 # Run the function
-sf_to_postgresql()
+# sf_to_postgresql()
