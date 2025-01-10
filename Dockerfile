@@ -49,7 +49,7 @@ COPY dags /opt/airflow/dags
 # COPY etl/s3_sf_data.py /opt/airflow/etl/s3_sf_data.py
 
 # Copy the new Python script
-# COPY etl/ETL_S3_SNOWFLAKES.py /opt/airflow/etl/ETL_S3_SNOWFLAKES.py
+COPY etl/ETL_S3_SNOWFLAKES.py /opt/airflow/etl/ETL_S3_SNOWFLAKES.py
 
 # Copy the credentials file
 # COPY etl/credentials.py /opt/airflow/etl/credentials.py

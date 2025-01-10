@@ -3,7 +3,7 @@ from airflow.operators.python import PythonOperator
 from datetime import datetime
 from etl.excel_to_snowflake_etl import excel_to_snowflake_etl
 from etl.new_task import new_task_function
-from ETL_S3_SNOWFLAKES import execute_snowflake_sql
+from etl.ETL_S3_SNOWFLAKES import execute_snowflake_sql
 from etl.sf_to_postgresql import sf_to_postgresql
 from dotenv import load_dotenv
 load_dotenv()
